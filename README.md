@@ -1,0 +1,2 @@
+# CCC
+Cookie Clicker Calculator
