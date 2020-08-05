@@ -3,7 +3,7 @@ import time
 
 #Framework
 FINAL_GOAL = 1000000000 #cookies
-HUMAN_CLICK_SPEED = 1000000.0 #clicks per second
+HUMAN_CLICK_SPEED = 10.0 #clicks per second
 NOTATED_TIME_INTERVAL = 60 #seconds
 START_TIME = time.time()
 
