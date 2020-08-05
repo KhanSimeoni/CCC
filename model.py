@@ -36,6 +36,7 @@ buildings = [Cursor, Grandma, Farm, Factory, Mine, Shipment, Lab, Portal, Time_M
 class Path:
     def __init__(self):
         self.buildings = [[None, 0]]
+        self.bought_extra = [None]
         self.rate = [HUMAN_CLICK_SPEED]
         self.excess = [0.0]
         self.total_cookies = [0.0]
@@ -83,6 +84,7 @@ class Path:
             self.num_bought.append(new_num_bought)
             self.excess.append(excess)
             self.index += 1
+            self.bought_extra.append(buy_extra)
             return False
         else:
             cookies_needed = (FINAL_GOAL - self.total_cookies[self.index])
@@ -128,8 +130,8 @@ class Path:
 
         new = Path()
         for i in range(1, self.index + 1):
-            if i == index: new.buy(building)
-            else: new.buy(self.buildings[i])
+            if i == index: new.buy(building_info)
+            else: new.buy((self.buildings[i][0], self.bought_extra[i]))
 
         return new
 
@@ -138,9 +140,13 @@ class Path:
 
         new = Path()
         for i in range(1, self.index + 2):
-            if i < index: new.buy(self.buildings[i])
-            elif i == index: new.buy(building)
-            else: new.buy(self.buildings[i - 1])
+            if i < index:
+                building_info = (self.buildings[i][0], self.bought_extra[i])
+                new.buy(building_info)
+            elif i == index: new.buy(building_info)
+            else:
+                building_info = (self.buildings[i - 1][0], self.bought_extra[i - 1])
+                new.buy(building_info)
 
         return new
 
@@ -149,7 +155,11 @@ class Path:
 
         new = Path()
         for i in range(1, self.index + 1):
-            if i != index: new.buy(i)
+            if i != index:
+                building_info = (self.buildings[i][0], self.bought_extra[i])
+                new.buy(building_info)
+
+        return new
 
 #human readability
 def print_minutes(min_passed, start_time):

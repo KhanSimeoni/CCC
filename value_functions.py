@@ -99,5 +99,5 @@ def choose_best(vals):
 
 #returns a random building weighted by value
 def choose_weighted(vals):
-    index = random.choices([i for i in range(len(vals))], weight=vals)[0]
+    index = random.choices([i for i in range(len(vals))], vals)[0]
     return building_at(index)

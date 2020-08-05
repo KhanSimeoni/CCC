@@ -5,7 +5,7 @@ import value_functions as vf
 import stop_conditions as sc
 
 #Evolution Algorithm
-def random_path(f, p=model.Path()):
+def random_path(f, path=model.Path()):
     done = False
     while not done:
         building_vals = f(path)
@@ -13,11 +13,16 @@ def random_path(f, p=model.Path()):
     return path
 
 def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
+    time_passed = 0
+
     #Start with random path
     if path is None: path = random_path(starter)
 
     #Make n changes, then compare to original. Keep whichever is better. Repeat until stop point
     while not stop(path):
+        #prints the number of minutes passed
+        time_passed = model.print_minutes(time_passed)
+
         index = random.randint(1, path.index)
 
         #pick randomly whether to insert or remove a building
@@ -34,10 +39,10 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     return path
 
-
-test = random_path(vf.rate_value)
+five_min = sc.stop_time(300)
+test = evolution(five_min)
 print(test)
-print(time_format(test.final_time))
+print(model.time_format(test.final_time))
 
 #test = Path()
 #strat = [Farm, Farm, Farm, Grandma, Cursor, Cursor, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Factory, Factory, Mine, Mine, Mine, Factory, Farm, Grandma, Cursor, Cursor, Mine, Factory, Farm, Grandma, Cursor, Mine, Shipment, Factory, Mine, Farm, Grandma, Shipment, Factory, Mine, Farm, Grandma, Shipment, Factory, Shipment, Mine, Farm, Lab, Shipment, Lab, Lab, Factory, Mine, Farm, Lab, Portal, Portal, Portal, Portal, Portal, Portal, Portal, Portal, Lab, Shipment, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Time_Machine, Time_Machine, Time_Machine, Lab, Time_Machine, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Shipment, Shipment, Shipment]
