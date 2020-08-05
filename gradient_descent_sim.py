@@ -3,7 +3,7 @@ import time
 
 #Framework
 FINAL_GOAL = 1000000000 #cookies
-HUMAN_CLICK_SPEED = 14.0 #clicks per second
+HUMAN_CLICK_SPEED = 1000000.0 #clicks per second
 NOTATED_TIME_INTERVAL = 60 #seconds
 START_TIME = time.time()
 
@@ -241,27 +241,40 @@ def search(stop, funcs):
     time_passed = 0 # minutes since start of code
     num = len(funcs)
     weights = []
+    step_init = 1 # initial step size
+    step_change = 1.5
     restart_point = 10*len(funcs) # how long to go without improvements before resetting step size
-
     #starts with a random weights
     for i in range(num):
         weights.append(random.uniform(-1, 1))
-
     #tests and adjusts weights
+    step_size = ((step_init ** 2) * num) ** 0.5 #adjusts for number of weights
     path = make_path(lambda p: weigh_functions(p, funcs, weights))
-
     counter = 0 #attempts since last improvement
     print(time_format(path.final_time))
-
     while not stop():
         #prints number of minutes passed
         time_passed = print_minutes(time_passed)
-        
+
+        direction = normalize([random.gauss(0, 1) for i in range(num)])
+        new_weights = [weights[i] + (step_size * direction[i]) for i in range(num)]
+        new = make_path(lambda p: weigh_functions(p, funcs, weights))
+        if new > path:
+            print(time_format(new.final_time))
+            path = new
+            weights = new_weights
+            step_size /= step_change
+            counter = 0
+        else:
+            counter += 1
+            if counter == restart_point:
+                counter = 0
+                step_size = ((random.random() ** 2) * num) ** 0.5
 
     return path, weights
 
-test, weights = search(stop_time(1), [rate_value])
-print(test)
-print(weights)
-print(time_format(test.final_time))
-#print(time_format(make_path(rate_value).final_time))
+#test, weights = search(stop_time(1), [rate_value, excess_value, time_value, cps_value])
+#print(test)
+#print(weights)
+#print(time_format(test.final_time))
+print(time_format(make_path(rate_value).final_time))
