@@ -9,7 +9,7 @@ def normalize(vector):
     return [x/magnitude for x in vector]
 
 def squish_weights(weights):
-    size = sum(weights)
+    size = sum([abs(x) for x in weights])
     if size == 0: return weights
     return [x/size for x in weights]
 
