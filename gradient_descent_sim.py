@@ -37,8 +37,8 @@ def search(stop, funcs):
         time_passed = model.print_minutes(time_passed, start)
 
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
-        new_weights = [weights[i] + (step_size * direction[i]) for i in range(num)]
-        new = make_path(lambda p: vf.weigh_functions(funcs, weights))
+        new_weights = vf.squish_weights([weights[i] + (step_size * direction[i]) for i in range(num)])
+        new = make_path(lambda p: vf.weigh_functions(funcs, new_weights))
         if new > path:
             path = new
             weights = new_weights

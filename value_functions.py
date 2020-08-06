@@ -8,6 +8,11 @@ def normalize(vector):
     if magnitude == 0: return vector
     return [x/magnitude for x in vector]
 
+def squish_weights(weights):
+    size = sum(weights)
+    if size == 0: return weights
+    return [x/size for x in weights]
+
 #Gives all buildings equal value
 def equal_value(path=model.Path()):
     return normalize([1] * len(model.buildings) * 2)
@@ -71,7 +76,7 @@ def weigh_functions(val_funcs, weights, path=model.Path()):
     totals = [0]*len(model.buildings)*2
     for i in range(len(val_funcs)):
         vals = val_funcs[i](path)
-        for j in range(len(model.buildings)):
+        for j in range(len(model.buildings)*2):
             totals[j] += vals[j] * weights[i]
     return totals
 
