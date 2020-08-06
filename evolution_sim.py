@@ -41,9 +41,16 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     return path
 
-test = evolution(sc.stop_time(model.minutes(30)))
-print(test)
-print(model.time_format(test.final_time))
+#test = evolution(sc.stop_time(model.minutes(30)))
+#print(test)
+#print(model.time_format(test.final_time))
+test1 = random_path(vf.equal_value)
+print(test1.final_time)
+test2 = random_path(vf.equal_value)
+print(test1 == test2)
+print(test1.final_time)
+print(test2.final_time)
+
 
 #test = Path()
 #strat = [Farm, Farm, Farm, Grandma, Cursor, Cursor, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Grandma, Cursor, Farm, Factory, Factory, Mine, Mine, Mine, Factory, Farm, Grandma, Cursor, Cursor, Mine, Factory, Farm, Grandma, Cursor, Mine, Shipment, Factory, Mine, Farm, Grandma, Shipment, Factory, Mine, Farm, Grandma, Shipment, Factory, Shipment, Mine, Farm, Lab, Shipment, Lab, Lab, Factory, Mine, Farm, Lab, Portal, Portal, Portal, Portal, Portal, Portal, Portal, Portal, Lab, Shipment, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Lab, Shipment, Mine, Factory, Farm, Portal, Time_Machine, Time_Machine, Time_Machine, Lab, Time_Machine, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Portal, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Lab, Shipment, Shipment, Shipment, Shipment]

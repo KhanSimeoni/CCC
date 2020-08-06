@@ -30,7 +30,7 @@ def search(stop, funcs):
 
     #tests and adjusts weights
     step_size = ((step_init ** 2) * num) ** 0.5 #adjusts for number of weights
-    path = make_path(lambda p: vf.weigh_functions(funcs, weights))
+    path = make_path(lambda p: vf.weigh_functions(funcs, weights, p))
     counter = 0 #attempts since last improvement
     while not stop(path):
         #prints number of minutes passed
@@ -38,7 +38,8 @@ def search(stop, funcs):
 
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = vf.squish_weights([weights[i] + (step_size * direction[i]) for i in range(num)])
-        new = make_path(lambda p: vf.weigh_functions(funcs, new_weights))
+
+        new = make_path(lambda p: vf.weigh_functions(funcs, new_weights, p))
         if new != path:
             print("SOMETHING CHANGED")
         if new > path:
@@ -46,7 +47,7 @@ def search(stop, funcs):
             weights = new_weights
             step_size /= step_change
             counter = 0
-        else:
+        elif new < path:
             counter += 1
             if counter == restart_point:
                 counter = 0
