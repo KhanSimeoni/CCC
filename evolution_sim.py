@@ -5,11 +5,9 @@ import value_functions as vf
 import stop_conditions as sc
 
 #Evolution Algorithm
-def random_path(f, path=model.Path()):
+def random_path(f, path):
     done = False
-    while not done:
-        building_vals = f(path)
-        done = path.buy(vf.choose_weighted(building_vals))
+    while not done: done = path.buy(vf.choose_weighted(f(path)))
     return path
 
 def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
@@ -41,15 +39,9 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     return path
 
-#test = evolution(sc.stop_time(model.minutes(30)))
-#print(test)
-#print(model.time_format(test.final_time))
-test1 = random_path(vf.equal_value)
-print(test1.final_time)
-test2 = random_path(vf.equal_value)
-print(test1 == test2)
-print(test1.final_time)
-print(test2.final_time)
+test = evolution(sc.stop_time(model.minutes(30)))
+print(test)
+print(model.time_format(test.final_time))
 
 
 #test = Path()

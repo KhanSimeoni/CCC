@@ -5,7 +5,7 @@ import value_functions as vf
 import stop_conditions as sc
 
 #path generator
-def make_path(f, path=model.Path()):
+def make_path(f, path):
     done = False
     while not done:
         building_vals = f(path)
@@ -30,7 +30,7 @@ def search(stop, funcs):
 
     #tests and adjusts weights
     step_size = ((step_init ** 2) * num) ** 0.5 #adjusts for number of weights
-    path = make_path(lambda p: vf.weigh_functions(funcs, weights, p))
+    path = make_path(format_weights(funcs, weights), model.Path())
     counter = 0 #attempts since last improvement
     while not stop(path):
         #prints number of minutes passed
@@ -39,7 +39,7 @@ def search(stop, funcs):
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = vf.squish_weights([weights[i] + (step_size * direction[i]) for i in range(num)])
 
-        new = make_path(lambda p: vf.weigh_functions(funcs, new_weights, p))
+        new = make_path(format_weights(funcs, weights), model.Path())
         if new != path:
             print("SOMETHING CHANGED")
         if new > path:

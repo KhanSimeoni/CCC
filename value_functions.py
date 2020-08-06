@@ -14,11 +14,11 @@ def squish_weights(weights):
     return [x/size for x in weights]
 
 #Gives all buildings equal value
-def equal_value(path=model.Path()):
+def equal_value(path):
     return normalize([1] * len(model.buildings) * 2)
 
 #How much excess is created if said building is chosen
-def excess_value(path=model.Path()):
+def excess_value(path):
     vals = [0]*len(model.buildings)*2
     for i in range(len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
@@ -33,7 +33,7 @@ def excess_value(path=model.Path()):
     return normalize(vals)
 
 #How much cps you get from a building
-def cps_value(path=model.Path()):
+def cps_value(path):
     vals = [0]*len(model.buildings)*2
     for i in range (len(model.buildings)):
         #cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
@@ -44,7 +44,7 @@ def cps_value(path=model.Path()):
     return normalize(vals)
 
 #Value of a building is the exponential growth rate the building would imply
-def rate_value(path=model.Path()):
+def rate_value(path):
     vals = [0]*len(model.buildings)*2
     for i in range(len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
@@ -57,7 +57,7 @@ def rate_value(path=model.Path()):
     return normalize(vals)
 
 #How long a building takes to purchase
-def time_value(path=model.Path()):
+def time_value(path):
     vals = [0] * len(model.buildings) * 2
     for i in range (len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
@@ -68,7 +68,7 @@ def time_value(path=model.Path()):
     return normalize(vals)
 
 #combines the return values of multiple value functions into a single one
-def weigh_functions(val_funcs, weights, path=model.Path()):
+def weigh_functions(val_funcs, weights, path):
     if len(val_funcs) != len(weights): raise ValueError("Number of Functions and Weights don't match")
     for w in weights:
         if abs(w) > 1: raise ValueError("Weight not between -1 and 1")
@@ -79,6 +79,10 @@ def weigh_functions(val_funcs, weights, path=model.Path()):
         for j in range(len(model.buildings)*2):
             totals[j] += vals[j] * weights[i]
     return totals
+
+#returns a function useable as a path generator from a set of functions and weights
+def format_weights(val_funcs, weights):
+    return lambda p: weigh_functions(val_funcs, weights, p)
 
 #returns the building found at a specific index, accounting for buy_extra
 def building_at(index):
