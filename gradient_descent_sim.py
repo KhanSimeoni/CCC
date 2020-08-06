@@ -47,7 +47,7 @@ def search(stop, funcs):
             weights = new_weights
             step_size /= step_change
             counter = 0
-        elif new < path:
+        else:
             counter += 1
             if counter == restart_point:
                 counter = 0
@@ -55,7 +55,7 @@ def search(stop, funcs):
 
     return path, weights
 
-test, weights = search(sc.stop_time(1), [vf.rate_value, vf.excess_value, vf.time_value, vf.cps_value])
+test, weights = search(sc.stop_time(1, time.time()), [vf.rate_value, vf.excess_value, vf.time_value, vf.cps_value])
 #print(test)
 #print(weights)
 print(model.time_format(test.final_time))

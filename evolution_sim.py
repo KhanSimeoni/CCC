@@ -10,12 +10,9 @@ def random_path(f, path):
     while not done: done = path.buy(vf.choose_weighted(f(path)))
     return path
 
-def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
+def evolution(stop, path, randomizer=vf.rate_value, starter=vf.rate_value):
     time_passed = 0
     start = time.time()
-
-    #Start with random path
-    if path is None: path = random_path(starter)
 
     #Make n changes, then compare to original. Keep whichever is better. Repeat until stop point
     while not stop(path):
@@ -39,7 +36,8 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     return path
 
-test = evolution(sc.stop_time(model.minutes(30)))
+stop = sc.stop_time(model.minutes(30), time.time())
+test = evolution(stop, model.Path())
 print(test)
 print(model.time_format(test.final_time))
 
