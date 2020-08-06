@@ -169,3 +169,6 @@ def print_minutes(min_passed, start_time):
         min_passed += 1
         print(time_format(min_passed * 60))
     return min_passed
+
+def minutes(n):
+    return n * 60
