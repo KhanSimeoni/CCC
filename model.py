@@ -1,3 +1,5 @@
+import time
+
 #Framework
 FINAL_GOAL = 1000000000 #cookies
 HUMAN_CLICK_SPEED = 10.0 #clicks per second

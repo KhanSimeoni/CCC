@@ -28,16 +28,16 @@ def search(stop, funcs):
 
     #tests and adjusts weights
     step_size = ((step_init ** 2) * num) ** 0.5 #adjusts for number of weights
-    path = make_path(lambda p: weigh_functions(p, funcs, weights))
+    path = make_path(lambda p: vf.weigh_functions(funcs, weights))
     counter = 0 #attempts since last improvement
     print(model.time_format(path.final_time))
     while not stop(path):
         #prints number of minutes passed
-        time_passed = model.print_minutes(time_passed)
+        time_passed = model.print_minutes(time_passed, 0)
 
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = [weights[i] + (step_size * direction[i]) for i in range(num)]
-        new = make_path(lambda p: vf.weigh_functions(p, funcs, weights))
+        new = make_path(lambda p: vf.weigh_functions(funcs, weights))
         if new > path:
             print(model.time_format(new.final_time))
             path = new
@@ -52,8 +52,8 @@ def search(stop, funcs):
 
     return path, weights
 
-#test, weights = search(stop_time(1), [rate_value, excess_value, time_value, cps_value])
+test, weights = search(sc.stop_time(1), [vf.rate_value, vf.excess_value, vf.time_value, vf.cps_value])
 #print(test)
-#print(weights)
-#print(model.time_format(test.final_time))
-print(model.time_format(make_path(vf.rate_value).final_time))
+print(weights)
+print(model.time_format(test.final_time))
+#print(model.time_format(make_path(vf.rate_value).final_time))

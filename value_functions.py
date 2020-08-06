@@ -63,7 +63,7 @@ def time_value(path=model.Path()):
     return normalize(vals)
 
 #combines the return values of multiple value functions into a single one
-def weigh_functions(val_funcs, weights):
+def weigh_functions(val_funcs, weights, path=model.Path()):
     if len(val_funcs) != len(weights): raise ValueError("Number of Functions and Weights don't match")
     for w in weights:
         if abs(w) > 1: raise ValueError("Weight not between -1 and 1")
