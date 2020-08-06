@@ -14,14 +14,16 @@ def random_path(f, path=model.Path()):
 
 def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
     time_passed = 0
+    start = time.time()
 
     #Start with random path
     if path is None: path = random_path(starter)
+    print(model.time_format(path.final_time))
 
     #Make n changes, then compare to original. Keep whichever is better. Repeat until stop point
     while not stop(path):
         #prints the number of minutes passed
-        time_passed = model.print_minutes(time_passed)
+        time_passed = model.print_minutes(time_passed, start)
 
         index = random.randint(1, path.index)
 
@@ -35,7 +37,9 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
             new = random_path(randomizer, path.remove(index))
 
         #keep the better path
-        if new > path: path = new
+        if new > path:
+            path = new
+            print(model.time_format(path.final_time))
 
     return path
 
