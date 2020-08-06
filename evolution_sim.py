@@ -41,8 +41,7 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     return path
 
-five_min = sc.stop_time(minutes(30))
-test = evolution(five_min)
+test = evolution(sc.stop_time(minutes(30)))
 print(test)
 print(model.time_format(test.final_time))
 
