@@ -39,6 +39,8 @@ def search(stop, funcs):
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = vf.squish_weights([weights[i] + (step_size * direction[i]) for i in range(num)])
         new = make_path(lambda p: vf.weigh_functions(funcs, new_weights))
+        if new != path:
+            print("SOMETHING CHANGED")
         if new > path:
             path = new
             weights = new_weights
