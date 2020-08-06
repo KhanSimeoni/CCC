@@ -126,6 +126,9 @@ class Path:
         if self.final_time == 0: return False
         return self.final_time <= other.final_time
 
+    def __ne__(self, other):
+        return self.final_time != other.final_time
+
     def replace(self, building_info, index):
         #changes should take the form: [(index, building), (index, building)]
         if index == 0: raise ValueError("Attempted to change 0th building")
