@@ -2,7 +2,7 @@
 Cookie Clicker Calculator
 
 Attempts to find the optimal play style in the game Cookie Clicker.
-Specifically, for speedrunning the 'hardcore' style in the fastest amount of time.
+Specifically, for speed-running the 'hardcore' style in the fastest amount of time.
 
 Rules are:
   1. Get to 1 billion total earned cookies in the shortest amount of time.

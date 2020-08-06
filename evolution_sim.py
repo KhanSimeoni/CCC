@@ -18,7 +18,6 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
 
     #Start with random path
     if path is None: path = random_path(starter)
-    print(model.time_format(path.final_time))
 
     #Make n changes, then compare to original. Keep whichever is better. Repeat until stop point
     while not stop(path):
@@ -39,7 +38,6 @@ def evolution(stop, randomizer=vf.rate_value, starter=vf.rate_value, path=None):
         #keep the better path
         if new > path:
             path = new
-            print(model.time_format(path.final_time))
 
     return path
 

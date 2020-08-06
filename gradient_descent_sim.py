@@ -32,7 +32,6 @@ def search(stop, funcs):
     step_size = ((step_init ** 2) * num) ** 0.5 #adjusts for number of weights
     path = make_path(lambda p: vf.weigh_functions(funcs, weights))
     counter = 0 #attempts since last improvement
-    print(model.time_format(path.final_time))
     while not stop(path):
         #prints number of minutes passed
         time_passed = model.print_minutes(time_passed, start)
@@ -41,7 +40,6 @@ def search(stop, funcs):
         new_weights = [weights[i] + (step_size * direction[i]) for i in range(num)]
         new = make_path(lambda p: vf.weigh_functions(funcs, weights))
         if new > path:
-            print(model.time_format(new.final_time))
             path = new
             weights = new_weights
             step_size /= step_change
