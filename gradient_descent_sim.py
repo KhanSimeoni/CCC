@@ -16,6 +16,8 @@ def make_path(f, path=model.Path()):
 def search(stop, funcs):
     #Finds the optimum weight value for choose_building to design a function
     time_passed = 0 # minutes since start of code
+    start = time.time() #start time
+
     num = len(funcs)
     weights = []
     step_init = 1 # initial step size
@@ -33,7 +35,7 @@ def search(stop, funcs):
     print(model.time_format(path.final_time))
     while not stop(path):
         #prints number of minutes passed
-        time_passed = model.print_minutes(time_passed, 0)
+        time_passed = model.print_minutes(time_passed, start)
 
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = [weights[i] + (step_size * direction[i]) for i in range(num)]
