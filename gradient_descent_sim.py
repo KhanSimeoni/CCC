@@ -3,6 +3,7 @@ import time
 import model
 import value_functions as vf
 import stop_conditions as sc
+import evolution_sim as es
 
 #path generator
 def make_path(f, path):
@@ -39,9 +40,9 @@ def search(stop, funcs):
         direction = vf.normalize([random.gauss(0, 1) for i in range(num)])
         new_weights = vf.squish_weights([weights[i] + (step_size * direction[i]) for i in range(num)])
 
-        new = make_path(vf.format_weights(funcs, weights), model.Path())
-        if new != path:
-            print("SOMETHING CHANGED")
+        new = make_path(vf.format_weights(funcs, new_weights), model.Path())
+        #if new != path:
+        #    print("SOMETHING CHANGED")
         if new > path:
             path = new
             weights = new_weights
@@ -55,8 +56,11 @@ def search(stop, funcs):
 
     return path, weights
 
-test, weights = search(sc.stop_time(1, time.time()), [vf.rate_value, vf.excess_value, vf.time_value, vf.cps_value])
-#print(test)
+test, weights = search(sc.stop_time(1, time.time()), [vf.rate_value, vf.excess_value])
+#print(test.index)
+#test = make_path(vf.rate_value, model.Path())
+print(test)
+es.evolution(sc.stop_time(20, time.time()), test)
 #print(weights)
 print(model.time_format(test.final_time))
 #print(model.time_format(make_path(vf.rate_value).final_time))

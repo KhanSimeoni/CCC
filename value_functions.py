@@ -67,6 +67,19 @@ def time_value(path):
 
     return normalize(vals)
 
+#DOES NOT WORK!!!!!
+#towards the end of the run, what is the ratio between cookies and cost
+def delayed_cpspc_value(path):
+    vals = [0]*len(model.buildings)*2
+    for i in range (len(model.buildings)):
+        cost, time_needed, num, excess = path.cost_of(model.buildings[i], path.index, False)
+        cpspc = model.buildings[i].rate / (cost + path.excess[path.index])
+        weighted_cpspc = cpspc * (path.total_cookies[path.index] / model.FINAL_GOAL)
+
+        vals[i] = weighted_cpspc
+
+    return vals
+
 #combines the return values of multiple value functions into a single one
 def weigh_functions(val_funcs, weights, path):
     if len(val_funcs) != len(weights): raise ValueError("Number of Functions and Weights don't match")

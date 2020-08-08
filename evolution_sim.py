@@ -18,7 +18,7 @@ def evolution(stop, path, randomizer=vf.rate_value, starter=vf.rate_value):
     while not stop(path):
         #prints the number of minutes passed
         time_passed = model.print_minutes(time_passed, start)
-
+        #print(path)
         index = random.randint(1, path.index)
 
         #pick randomly whether to insert or remove a building
@@ -36,10 +36,10 @@ def evolution(stop, path, randomizer=vf.rate_value, starter=vf.rate_value):
 
     return path
 
-stop = sc.stop_time(model.minutes(30), time.time())
-test = evolution(stop, model.Path())
-print(test)
-print(model.time_format(test.final_time))
+#stop = sc.stop_time(model.minutes(30), time.time())
+#test = evolution(stop, model.Path())
+#print(test)
+#print(model.time_format(test.final_time))
 
 
 #test = Path()
