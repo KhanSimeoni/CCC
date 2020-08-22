@@ -1,5 +1,6 @@
 import random
 import time
+import numpy as np
 import model
 import value_functions as vf
 import stop_conditions as sc
@@ -56,11 +57,15 @@ def search(stop, funcs):
 
     return path, weights
 
-test, weights = search(sc.stop_time(1, time.time()), [vf.rate_value, vf.excess_value])
+#test, weights = search(sc.stop_time(1, time.time()), [vf.rate_value, vf.excess_value])
 #print(test.index)
 #test = make_path(vf.rate_value, model.Path())
-print(test)
-es.evolution(sc.stop_time(20, time.time()), test)
+#print(test)
+#es.evolution(sc.stop_time(20, time.time()), test)
 #print(weights)
-print(model.time_format(test.final_time))
+#print(model.time_format(test.final_time))
 #print(model.time_format(make_path(vf.rate_value).final_time))
+test = model.Path()
+funcs = [vf.rate_value, vf.equal_value]
+weights = [(2**0.5) / 2] * 2
+print(vf.weigh_functions(funcs, weights, test))

@@ -1,25 +1,21 @@
 import model
 import random
+import numpy as np
 
-#turns a vector into a unit vector with the same direction
+#sets a non-empty vector to a length of 1
 def normalize(vector):
-    #NO DIVIDING BY 0!!!!!
-    magnitude = sum(x**2 for x in vector) ** 0.5
-    if magnitude == 0: return vector
-    return [x/magnitude for x in vector]
-
-def squish_weights(weights):
-    size = sum([abs(x) for x in weights])
-    if size == 0: return weights
-    return [x/size for x in weights]
+    norm = np.linalg.norm(vector)
+    if norm == 0:
+        return vector
+    return vector / norm
 
 #Gives all buildings equal value
 def equal_value(path):
-    return normalize([1] * len(model.buildings) * 2)
+    return normalize(np.ones(len(model.buildings) * 2))
 
 #How much excess is created if said building is chosen
 def excess_value(path):
-    vals = [0]*len(model.buildings)*2
+    vals = np.zeros(len(model.buildings)*2)
     for i in range(len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
         cost_ten, time_needed_ten, num_ten, excess_ten = path.cost_of(model.buildings[i], path.index, True)
@@ -34,7 +30,7 @@ def excess_value(path):
 
 #How much cps you get from a building
 def cps_value(path):
-    vals = [0]*len(model.buildings)*2
+    vals = np.zeros(len(model.buildings)*2)
     for i in range (len(model.buildings)):
         #cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
         cost_ten, time_needed_ten, num_ten, excess_ten = path.cost_of(model.buildings[i], path.index, True)
@@ -45,7 +41,7 @@ def cps_value(path):
 
 #Value of a building is the exponential growth rate the building would imply
 def rate_value(path):
-    vals = [0]*len(model.buildings)*2
+    vals = np.zeros(len(model.buildings)*2)
     for i in range(len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
         cost_ten, time_needed_ten, num_ten, excess_ten = path.cost_of(model.buildings[i], path.index, True)
@@ -58,7 +54,7 @@ def rate_value(path):
 
 #How long a building takes to purchase
 def time_value(path):
-    vals = [0] * len(model.buildings) * 2
+    vals = np.zeros(len(model.buildings)*2)
     for i in range (len(model.buildings)):
         cost_one, time_needed_one, num_one, excess_one = path.cost_of(model.buildings[i], path.index, False)
         cost_ten, time_needed_ten, num_ten, excess_ten = path.cost_of(model.buildings[i], path.index, True)
@@ -70,7 +66,7 @@ def time_value(path):
 #DOES NOT WORK!!!!!
 #towards the end of the run, what is the ratio between cookies and cost
 def delayed_cpspc_value(path):
-    vals = [0]*len(model.buildings)*2
+    vals = np.zeros(len(model.buildings)*2)
     for i in range (len(model.buildings)):
         cost, time_needed, num, excess = path.cost_of(model.buildings[i], path.index, False)
         cpspc = model.buildings[i].rate / (cost + path.excess[path.index])
@@ -86,11 +82,7 @@ def weigh_functions(val_funcs, weights, path):
     for w in weights:
         if abs(w) > 1: raise ValueError("Weight not between -1 and 1")
 
-    totals = [0]*len(model.buildings)*2
-    for i in range(len(val_funcs)):
-        vals = val_funcs[i](path)
-        for j in range(len(model.buildings)*2):
-            totals[j] += vals[j] * weights[i]
+    totals = sum([val_funcs[i](path) * weights[i] for i in range(len(weights))])
     return totals
 
 #returns a function useable as a path generator from a set of functions and weights
